@@ -25,6 +25,7 @@ header {
     top: 0;
     width: 100%; /* 헤더가 화면 전체 너비를 차지하도록 설정 */
     z-index: 1000; /* 헤더가 다른 요소들 위에 표시되도록 설정 */
+    left: 0; /* 수평 위치 설정 */
 }
 
 .container {
@@ -224,6 +225,65 @@ footer {
     outline: none;
 }
 
+/*캐러셀*/
+.carousel {
+    position: relative;
+    max-width: 100%;
+    margin: 20px auto;
+    overflow: hidden;
+    border: 2px solid #ddd; /* 선택 사항: 캐러셀의 테두리 */
+    border-radius: 8px; /* 선택 사항: 둥근 모서리 */
+}
+
+.carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    min-width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center; /* 상하 중앙 정렬 */
+    justify-content: center; /* 좌우 중앙 정렬 */
+    overflow: hidden; /* 이미지가 컨테이너를 넘지 않도록 함 */
+    position: relative; /* 자식 요소들에 대한 상대 위치 설정 */
+}
+
+.carousel-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* 이미지 비율에 맞춰 자르기 */
+    display: block;
+}
+
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 24px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+}
+
+.carousel-control.prev {
+    left: 0;
+}
+
+.carousel-control.next {
+    right: 0;
+}
+
+.carousel-control:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+
 /* 반응형 디자인을 위한 미디어 쿼리 */
 @media (max-width: 768px) {
     .container {
@@ -262,6 +322,10 @@ footer {
     .text-box {
         font-size: 0.9rem;
     }
+
+    .carousel-control {
+        font-size: 18px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -292,5 +356,9 @@ footer {
 
     .text-box {
         font-size: 0.8rem;
+    }
+
+    .carousel-control {
+        font-size: 16px;
     }
 }
