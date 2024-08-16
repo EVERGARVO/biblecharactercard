@@ -124,6 +124,49 @@ header {
 .details-section {
     text-align: center;
     padding: 20px;
+}
+
+.details-section img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.details-section h1 {
+    font-size: 2rem;
+    margin: 20px 0;
+}
+
+.details-section p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* 푸터 스타일 */
+footer {
+    background-color: #343a40;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-align: center;
+    border-top: 2px solid #495057;
+    margin-top: auto; /* 푸터가 항상 페이지의 가장 하단에 위치하도록 설정 */
+}
+
+/* 페이드 인 효과 */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.details-section {
+    text-align: center;
+    padding: 20px;
     margin: 0 auto; /* 가운데 정렬 */
     max-width: 800px; /* 본문 내용의 최대 너비 설정 */
     width: 100%;
@@ -150,26 +193,35 @@ header {
     padding: 0 10px; /* 모바일에서 텍스트와 화면 가장자리 사이에 여백 추가 */
 }
 
-/* 푸터 스타일 */
-footer {
-    background-color: #343a40;
-    color: #ffffff;
-    padding: 10px 20px;
-    text-align: center;
-    border-top: 2px solid #495057;
-    margin-top: auto; /* 푸터가 항상 페이지의 가장 하단에 위치하도록 설정 */
+/* 텍스트 박스 컨테이너 스타일 */
+.text-box-container {
+    width: 100%;
+    max-width: 800px; /* 본문과 비슷한 폭 */
+    margin: 0 auto;
 }
 
-/* 페이드 인 효과 */
-.fade-in {
-    opacity: 0;
-    animation: fadeIn 1s forwards;
+/* 텍스트 박스 스타일 */
+.text-box {
+    width: 100%;
+    min-height: 60px; /* 초기 높이 설정 */
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: none; /* 사용자가 크기를 조절할 수 없도록 설정 */
+    overflow: hidden; /* 내용이 박스를 넘치지 않도록 설정 */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
+/* 포커스 상태 스타일 */
+.text-box:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
 }
 
 /* 반응형 디자인을 위한 미디어 쿼리 */
@@ -202,6 +254,14 @@ footer {
     .details-section p {
         font-size: 0.9rem;
     }
+
+    .text-box-container {
+        padding: 10px;
+    }
+
+    .text-box {
+        font-size: 0.9rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -223,6 +283,14 @@ footer {
     }
 
     .details-section p {
+        font-size: 0.8rem;
+    }
+
+    .text-box-container {
+        padding: 5px;
+    }
+
+    .text-box {
         font-size: 0.8rem;
     }
 }
