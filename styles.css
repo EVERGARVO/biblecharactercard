@@ -60,10 +60,11 @@ header {
 
 /* 카드 섹션 스타일 */
 .card-section {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 20px;
     justify-content: center;
+    padding: 20px;
 }
 
 .card {
@@ -283,8 +284,99 @@ footer {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+/* 목차 토글 버튼 스타일 */
+.menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 20px;
+    left: 20px; /* 오른쪽에서 왼쪽으로 이동 */
+    width: 40px;
+    height: 40px;
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1001;
+    transition: background-color 0.3s ease;
+}
+
+.menu-toggle:hover {
+    background-color: #0056b3;
+}
+
+#menu-icon {
+    font-size: 24px;
+}
+
+#close-icon {
+    font-size: 24px;
+}
+
+/* 목차 창 스타일 */
+.toc-container {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed;
+    top: 0;
+    left: 0; /* 왼쪽에 고정 */
+    width: 250px;
+    height: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: transform 0.3s ease;
+    transform: translateX(-100%); /* 기본적으로 왼쪽으로 숨김 */
+}
+
+.toc-content {
+    padding: 20px;
+}
+
+.toc-content h2 {
+    font-size: 1.5rem;
+    margin-top: 0;
+}
+
+.toc-content ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.toc-content ul li {
+    margin-bottom: 10px;
+}
+
+.toc-content ul li a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.toc-content ul li a:hover {
+    color: #ff6600; /* 호버 시 색상 변경 */
+    text-decoration: none; /* 호버 시 밑줄 추가 */
+    font-weight: bold; /* 텍스트를 좀 더 두껍게 */
+}
+
+/* 목차 창이 열릴 때의 스타일 */
+.toc-container.show {
+    display: block;
+    transform: translateX(0); /* 보이게 하기 */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    scroll-margin-top: 120px; /* 필요에 따라 조정 */
+}
+
 
 /* 반응형 디자인을 위한 미디어 쿼리 */
+@media (max-width: 1024px) {
+    .card-section {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
@@ -301,6 +393,10 @@ footer {
 
     .card {
         width: 100%;
+    }
+
+    .card-section {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     }
 
     .details-section {
@@ -326,6 +422,7 @@ footer {
     .carousel-control {
         font-size: 18px;
     }
+
 }
 
 @media (max-width: 480px) {
@@ -340,6 +437,10 @@ footer {
 
     .card {
         width: 100%;
+    }
+
+    .card-section {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     }
 
     .details-section h1 {
