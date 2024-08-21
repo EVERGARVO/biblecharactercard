@@ -221,3 +221,15 @@ function generateTOC() {
         stack.push(item);
     });
 }
+
+//비디오 기능
+document.addEventListener('keydown', function(event) {
+    if (event.code === 'KeyS') {  // 'S' 키로 자막 토글
+        const track = document.getElementById('myTrack');
+        if (track.mode === 'showing') {
+            track.mode = 'disabled';
+        } else {
+            track.mode = 'showing';
+        }
+    }
+});
