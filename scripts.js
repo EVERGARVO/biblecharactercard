@@ -46,23 +46,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const textBoxValue = textBox.value;
             const textBoxId = textBox.id;
 
-            fetch('https://script.google.com/macros/s/AKfycby0U_-JmuW39OBvHQHhok3JB4bRCoiwaoyXl3ewzlzNqYUl1vWHBKPny4C9B8F3dKE/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbwmbk3u9rjuvW2wza8qmziAFtIgdHKD1pxp1vRS7SbEbuHZLD_KhnwY9XM1d_d4bgJJ/exec', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                  'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    id: textBoxId,
-                    value: textBoxValue
+                  id: textBoxId,
+                  value: textBoxValue
                 })
-            })
-            .then(response => response.text())
-            .then(result => {
-                console.log(result);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+              })
+              .then(response => response.text())
+              .then(result => console.log(result))
+              .catch(error => console.error('Error:', error));
         });
     });
 
