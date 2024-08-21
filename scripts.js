@@ -27,20 +27,42 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // 텍스트 박스 동작
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
     const textBoxes = document.querySelectorAll('.text-box');
 
-    // 페이지 로드 시 각 텍스트 박스의 내용 불러오기
     textBoxes.forEach((textBox) => {
+        // 페이지 로드 시 각 텍스트 박스의 내용 불러오기
         textBox.value = localStorage.getItem(textBox.id) || '';
         adjustHeight(textBox);
-    });
 
-    // 텍스트 박스 내용이 변경될 때 로컬 스토리지에 저장하고 높이 조정
-    textBoxes.forEach((textBox) => {
+        // 텍스트 박스 내용이 변경될 때 로컬 스토리지에 저장하고 높이 조정
         textBox.addEventListener('input', () => {
             localStorage.setItem(textBox.id, textBox.value);
             adjustHeight(textBox);
+        });
+
+        // 비활성화 시 텍스트 박스의 내용 자동 저장
+        textBox.addEventListener('blur', () => {
+            const textBoxValue = textBox.value;
+            const textBoxId = textBox.id;
+
+            fetch('https://script.google.com/macros/s/AKfycbyWJxwh1Iz0bXwncoWIUg9WPyJn97f00fbPv8l-KHfVBc8Z8mqvuPU08TumYxWmK1go/exec', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: textBoxId,
+                    value: textBoxValue
+                })
+            })
+            .then(response => response.text())
+            .then(result => {
+                console.log(result);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         });
     });
 
@@ -60,27 +82,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
-//텍스트 박스 시트 이동
-const textBoxes = document.querySelectorAll('.text-box');
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbznkXe51r6Ne45qIOBZ6tQ197oQ9OKwKuoGB59vLXkaRE4pfU2eg0iXKobqwOIJtX1l/exec'; // Google Apps Script에서 제공된 웹 애플리케이션 URL을 여기에 넣습니다.
-
-        textBoxes.forEach(textBox => {
-            textBox.addEventListener('input', () => {
-                const textBoxId = textBox.id;
-                const textBoxValue = textBox.value;
-
-                fetch(scriptUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ id: textBoxId, value: textBoxValue })
-                })
-                .then(response => response.text())
-                .then(result => console.log('Success:', result))
-                .catch(error => console.error('Error:', error));
-            });
-        });
 
 // 팝업 동작
 // scripts.js
