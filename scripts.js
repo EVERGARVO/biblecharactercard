@@ -60,6 +60,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
+//텍스트 박스 시트 이동
+const textBoxes = document.querySelectorAll('.text-box');
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbznkXe51r6Ne45qIOBZ6tQ197oQ9OKwKuoGB59vLXkaRE4pfU2eg0iXKobqwOIJtX1l/exec'; // Google Apps Script에서 제공된 웹 애플리케이션 URL을 여기에 넣습니다.
+
+        textBoxes.forEach(textBox => {
+            textBox.addEventListener('input', () => {
+                const textBoxId = textBox.id;
+                const textBoxValue = textBox.value;
+
+                fetch(scriptUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: textBoxId, value: textBoxValue })
+                })
+                .then(response => response.text())
+                .then(result => console.log('Success:', result))
+                .catch(error => console.error('Error:', error));
+            });
+        });
+
 // 팝업 동작
 // scripts.js
 
