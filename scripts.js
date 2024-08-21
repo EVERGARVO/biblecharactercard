@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const textBoxValue = textBox.value;
             const textBoxId = textBox.id;
 
-            fetch('https://script.google.com/macros/s/AKfycbyWJxwh1Iz0bXwncoWIUg9WPyJn97f00fbPv8l-KHfVBc8Z8mqvuPU08TumYxWmK1go/exec', {
+            fetch('https://script.google.com/macros/s/AKfycby0U_-JmuW39OBvHQHhok3JB4bRCoiwaoyXl3ewzlzNqYUl1vWHBKPny4C9B8F3dKE/exec', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
