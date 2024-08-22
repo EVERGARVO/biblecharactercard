@@ -58,73 +58,43 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Firebase 스크립트 동적으로 로드
-function loadFirebaseScripts() {
-    return new Promise((resolve, reject) => {
-        // Firebase App (필수)
-        const firebaseAppScript = document.createElement('script');
-        firebaseAppScript.src = 'https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js';
-        firebaseAppScript.onload = () => {
-            // Firebase Database (필수)
-            const firebaseDatabaseScript = document.createElement('script');
-            firebaseDatabaseScript.src = 'https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js';
-            firebaseDatabaseScript.onload = () => resolve();
-            firebaseDatabaseScript.onerror = reject;
-            document.head.appendChild(firebaseDatabaseScript);
-        };
-        firebaseAppScript.onerror = reject;
-        document.head.appendChild(firebaseAppScript);
-    });
-}
-
-// Firebase 설정 및 초기화
-function initializeFirebase() {
-    const firebaseConfig = {
-        apiKey: "AIzaSyCwU6EowJWhyqRCzPqDlV2dH447ZMvNid8",
-        authDomain: "textboxdatabase.firebaseapp.com",
-        databaseURL: "https://textboxdatabase-default-rtdb.firebaseio.com",
-        projectId: "textboxdatabase",
-        storageBucket: "textboxdatabase.appspot.com",
-        messagingSenderId: "32587467001",
-        appId: "1:32587467001:web:f0ef1da6e005906d907a28"
-      };
-    firebase.initializeApp(firebaseConfig);
-}
-
-// 페이지가 로드될 때 Firebase 스크립트 로드 및 초기화
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        await loadFirebaseScripts();
-        initializeFirebase();
-
-        // Firebase Realtime Database 참조
-        const database = firebase.database();
-
-        // 모든 텍스트 박스 요소를 선택
-        const textBoxes = document.querySelectorAll('.text-box');
-
-        textBoxes.forEach(textBox => {
-            const boxId = textBox.id; // 텍스트 박스의 ID를 데이터베이스 경로로 사용
-
-            // 데이터베이스에서 텍스트 박스의 데이터 가져오기
-            database.ref(`sharedText/${boxId}`).on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (data !== null) {
-                    textBox.value = data;
-                }
-            });
-
-            // 텍스트 박스 내용 변경 시 데이터베이스에 저장
-            textBox.addEventListener('input', () => {
-                database.ref(`sharedText/${boxId}`).set(textBox.value);
-            });
+// Firebase 설정
+const firebaseConfig = {
+    apiKey: "AIzaSyBZHnnfON5SOQkcvRT7kFasF3YZYKHPYc0",
+    authDomain: "txtboxdatabase.firebaseapp.com",
+    projectId: "txtboxdatabase",
+    storageBucket: "txtboxdatabase.appspot.com",
+    messagingSenderId: "285982278557",
+    appId: "1:285982278557:web:8367d7eb6792b09636e574"
+  };
+  
+ // Firebase 초기화
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+  
+  // 텍스트 박스와 Firestore 문서 참조
+  document.addEventListener('DOMContentLoaded', () => {
+    const textBoxes = document.querySelectorAll('.text-box');
+  
+    textBoxes.forEach(textBox => {
+      const docRef = db.collection('text-boxes').doc(textBox.id);
+  
+      // Firestore에서 텍스트 박스 데이터 읽기
+      docRef.onSnapshot(doc => {
+        if (doc.exists) {
+          textBox.value = doc.data().content || '';
+        }
+      });
+  
+      // 텍스트 박스 데이터 Firestore에 쓰기
+      textBox.addEventListener('input', () => {
+        docRef.set({
+          content: textBox.value
         });
-    } catch (error) {
-        console.error('Error loading Firebase scripts:', error);
-    }
-});
-
-
+      });
+    });
+  });
+  
 
 
 // 팝업 동작
