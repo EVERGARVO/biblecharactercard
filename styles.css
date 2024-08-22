@@ -395,6 +395,100 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 15px;
 }
 
+/* 새 텍스트 박스 디자인 */
+.custom-text-box-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto; /* 중앙 정렬 */
+    box-sizing: border-box;
+}
+
+/* 개별 텍스트 박스 아이템 스타일 */
+.custom-text-box-item {
+    margin-bottom: 20px; /* 각 텍스트 박스와 버튼 사이에 간격 추가 */
+}
+
+.custom-text-box {
+    width: calc(100% - 22px); /* 여백을 고려하여 너비 조정 */
+    min-height: 60px;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: none;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 포커스 상태 스타일 */
+.custom-text-box:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+/* 제출 버튼 스타일 */
+.custom-submit-button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.custom-submit-button:hover {
+    background-color: #0056b3;
+}
+
+/* 메시지 컨테이너 스타일 */
+.custom-messages-container {
+    margin-top: 20px;
+}
+
+/* 개별 메시지 스타일 */
+.custom-message {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+/* 삭제 버튼 스타일 */
+.delete-button {
+    background: none;
+    border: none;
+    color: #dc3545;
+    font-size: 1rem;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    transition: color 0.3s ease;
+}
+
+.delete-button:hover {
+    color: #c82333;
+}
+
+/* 삭제 버튼의 텍스트와의 간격 조정 */
+.custom-message {
+    padding-right: 40px; /* 삭제 버튼의 크기만큼 여백 추가 */
+}
+
+
+
+
+
 
 /* 반응형 디자인을 위한 미디어 쿼리 */
 @media (max-width: 1024px) {

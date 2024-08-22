@@ -43,6 +43,27 @@
                 <a class="carousel-control next" onclick="nextSlide('carousel_alex01')">&#10095;</a>
             </div>
 
+            <!--새로운 텍박-->
+            <!-- 텍스트 박스 컨테이너 -->
+            <div class="custom-text-boxes-container">
+                <div class="custom-text-box-item">
+                    <textarea class="custom-text-box" id="customTextBox1" placeholder="내용을 입력하세요..."></textarea>
+                    <button class="custom-submit-button" data-textbox-id="customTextBox1" data-messages-container-id="messagesContainer1">저장</button>
+                    <div class="custom-messages-container" id="messagesContainer1">
+                        <!-- 저장된 메시지가 여기에 추가됩니다 -->
+                    </div>
+                </div>
+                <div class="custom-text-box-item">
+                    <textarea class="custom-text-box" id="customTextBox2" placeholder="내용을 입력하세요..."></textarea>
+                    <button class="custom-submit-button" data-textbox-id="customTextBox2" data-messages-container-id="messagesContainer2">저장</button>
+                    <div class="custom-messages-container" id="messagesContainer2">
+                        <!-- 저장된 메시지가 여기에 추가됩니다 -->
+                    </div>
+                </div>
+                <!-- 추가 텍스트 박스 및 컨테이너 -->
+            </div>
+
+
             <!-- 두 번째 이미지 캐러셀 -->
             <div class="carousel" id="carousel_alex02">
                 <div class="carousel-inner">
@@ -99,7 +120,7 @@
     <!-- 푸터 포함 -->
     <div id="footer-placeholder"></div>
 
-    <script type="module" src="scripts.js"></script>
+    <script src="scripts.js"></script>
 
 </body>
 </html>
