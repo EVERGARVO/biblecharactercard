@@ -58,19 +58,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Firebase 설정
+// scripts.js 파일
+import firebase from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js';
+import 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+
+// Firebase 설정 객체
 const firebaseConfig = {
-    apiKey: "AIzaSyBZHnnfON5SOQkcvRT7kFasF3YZYKHPYc0",
-    authDomain: "txtboxdatabase.firebaseapp.com",
-    projectId: "txtboxdatabase",
-    storageBucket: "txtboxdatabase.appspot.com",
-    messagingSenderId: "285982278557",
-    appId: "1:285982278557:web:8367d7eb6792b09636e574"
-  };
-  
- // Firebase 초기화
+  apiKey: "AIzaSyBZHnnfON5SOQkcvRT7kFasF3YZYKHPYc0",
+  authDomain: "txtboxdatabase.firebaseapp.com",
+  projectId: "txtboxdatabase",
+  storageBucket: "txtboxdatabase.appspot.com",
+  messagingSenderId: "285982278557",
+  appId: "1:285982278557:web:8367d7eb6792b09636e574",
+};
+
+// Firebase 초기화
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+
   
   // 텍스트 박스와 Firestore 문서 참조
   document.addEventListener('DOMContentLoaded', () => {
