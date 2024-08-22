@@ -1,25 +1,5 @@
 // 스크립트 파일 (scripts.js)
 
-// 페이지 로드 시 저장된 메시지 불러오기
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('load_messages.php')
-        .then(response => response.json())
-        .then(messages => {
-            const messageContainers = document.querySelectorAll('.custom-messages-container');
-            messageContainers.forEach(container => {
-                messages.forEach(message => {
-                    const newMessage = document.createElement('div');
-                    newMessage.classList.add('custom-message');
-                    newMessage.innerHTML = `
-                        ${message.content}
-                        <button class="delete-button" onclick="confirmDelete(this)">&#10006;</button>
-                    `;
-                    container.appendChild(newMessage);
-                });
-            });
-        })
-        .catch(error => console.error('Error:', error));
-});
 
 
 // 헤더와 푸터를 동적으로 로드합니다.
@@ -256,29 +236,73 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-//새로운 텍스트 박스
+// Firebase 설정 및 Firestore 초기화
+const firebaseConfig = {
+    apiKey: "AIzaSyBmTMkIbs-BYkUb0CcBtkzuv7pihpmziG0",
+    authDomain: "bcctxtbox.firebaseapp.com",
+    projectId: "bcctxtbox",
+    storageBucket: "bcctxtbox.appspot.com",
+    messagingSenderId: "899367226734",
+    appId: "1:899367226734:web:3abeea4ea93e2e44b5c57f"
+  };
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// 페이지 로드 시 메시지 불러오기
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.custom-messages-container').forEach(container => {
+        const textboxId = container.id;
+        loadMessages(textboxId, container);
+    });
+});
+
+// 메시지 불러오기
+async function loadMessages(textboxId, container) {
+    try {
+        const querySnapshot = await db.collection('messages')
+            .where('textboxId', '==', textboxId)
+            .orderBy('timestamp', 'desc')
+            .get();
+
+        querySnapshot.forEach(doc => {
+            const messageData = doc.data();
+            const message = document.createElement('div');
+            message.classList.add('custom-message');
+            message.setAttribute('data-message-id', doc.id);
+            message.innerHTML = `
+                ${messageData.content}
+                <button class="delete-button" onclick="confirmDelete(this)">&#10006;</button>
+            `;
+            container.appendChild(message);
+        });
+    } catch (error) {
+        console.error('Error loading messages: ', error);
+    }
+}
+
+// 텍스트 박스에 메시지 저장
 document.querySelectorAll('.custom-submit-button').forEach(button => {
-    button.addEventListener('click', function() {
+    button.addEventListener('click', async function() {
         const textBoxId = this.getAttribute('data-textbox-id');
         const messagesContainerId = this.getAttribute('data-messages-container-id');
 
         const userText = document.getElementById(textBoxId).value;
 
         if (userText.trim() !== '') {
-            // 서버에 데이터 전송 (예: Ajax 사용)
-            fetch('save_message.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: `message=${encodeURIComponent(userText)}`
-            })
-            .then(response => response.text())
-            .then(data => {
+            try {
+                // Firestore에 메시지 저장
+                const docRef = await db.collection('messages').add({
+                    content: userText,
+                    textboxId: textBoxId,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
                 // 새로운 메시지를 화면에 추가
                 const messageContainer = document.getElementById(messagesContainerId);
                 const newMessage = document.createElement('div');
                 newMessage.classList.add('custom-message');
+                newMessage.setAttribute('data-message-id', docRef.id); // 메시지 ID 추가
                 newMessage.innerHTML = `
                     ${userText}
                     <button class="delete-button" onclick="confirmDelete(this)">&#10006;</button>
@@ -287,8 +311,9 @@ document.querySelectorAll('.custom-submit-button').forEach(button => {
 
                 // 텍스트 박스 비우기
                 document.getElementById(textBoxId).value = '';
-            })
-            .catch(error => console.error('Error:', error));
+            } catch (error) {
+                console.error('Error adding document: ', error);
+            }
         } else {
             alert('내용을 입력해주세요.');
         }
@@ -302,18 +327,16 @@ function confirmDelete(button) {
     }
 }
 
-function deleteMessage(button) {
-    // 삭제할 메시지를 찾아서 제거
-    const messageContainer = button.parentElement.parentElement;
-    messageContainer.removeChild(button.parentElement);
-
-    // 서버에서 삭제 처리 (예: Ajax 사용)
-    // const messageId = button.parentElement.dataset.messageId;
-    // fetch('delete_message.php', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/x-www-form-urlencoded'
-    //     },
-    //     body: `messageId=${messageId}`
-    // });
+async function deleteMessage(button) {
+    const messageId = button.parentElement.getAttribute('data-message-id');
+    try {
+        // Firestore에서 메시지 삭제
+        await db.collection('messages').doc(messageId).delete();
+        
+        // 삭제할 메시지를 화면에서 제거
+        const messageContainer = button.parentElement.parentElement;
+        messageContainer.removeChild(button.parentElement);
+    } catch (error) {
+        console.error('Error removing document: ', error);
+    }
 }
